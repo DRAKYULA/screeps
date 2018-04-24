@@ -23,14 +23,15 @@ var roleHarvester = {
                         structure.structureType == STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity;
                 }
             });
-            var containerTarget = creep.findPathTo(24,39, {
+            var containerTarget = creep.pos.findPathTo(24,39, {
                 filter: (structure) => {
                     return (structure.structureType == STRUCTURE_CONTAINER) && structure.energy < structure.energyCapacity;
                 }
-            });)
-            if(target) {
-                if(creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target);
+            });
+            
+            if(spawnTarget) {
+                if(creep.transfer(spawnTarget, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(spawnTarget);
                 }
             } else {
                 if (creep.transfer(containerTarget, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
