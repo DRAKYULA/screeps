@@ -30,7 +30,4 @@ exports.run = function(spawn) {
         workerBody = workerBody.concat(bodyIteration);
     }
 
-    if(spawn.room.find(FIND_CONSTRUCTION_SITES).length > 0) {
-        spawn.createCreep(workerBody, 'b1', {role: 'builder'});
-    }
 }

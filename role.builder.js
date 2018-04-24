@@ -13,27 +13,15 @@ var roleBuilder = {
         }
 
         if(creep.memory.building) {
-            var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-            if(targets.length) {
-                if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
-                }
-            }
-            let repairTargets = creep.room.find(FIND_STRUCTURES, {
-                filter: object => object.hits < object.hitsMax
-            });
+            // var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+            // if(targets.length) {
+            //     if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
+            //         creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+            //     }
+            // }
 
-            repairTargets.sort((a,b) => a.hits - b.hits);
-
-            if(repairTargets.length > 0 && targets.length < 1) {
-                if(creep.repair(repairTargets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(repairTargets[0]);
-                }
-            }
-            if(repairTargets.length < 1 && targets.length < 1){
-                if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffaa00'}});
-                }
+            if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffaa00'}});
             }
         }
         else {
