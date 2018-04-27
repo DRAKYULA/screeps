@@ -2,12 +2,10 @@ var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleRepairer = require('role.repairer');
-var building = require('building');
 var tower = require('tower');
+require('prototype.creep');
 
 module.exports.loop = function () {
-
-    building.run(Game.spawns.Spawn1);
 
     var towers = Game.spawns.Spawn1.room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER, my: true}});
     towers.forEach(tower.run);
@@ -23,7 +21,7 @@ module.exports.loop = function () {
     if(harvesters.length < 3) {
         var newName = 'Harvester' + Game.time;
         console.log('Spawning new harvester: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
+        Game.spawns['Spawn1'].spawnCreep([WORK,WORK,CARRY,CARRY,MOVE], newName,
             {memory: {role: 'harvester'}});
     }
 
@@ -36,19 +34,19 @@ module.exports.loop = function () {
     }
 
     var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder' );
-    if(builders.length < 3) {
+    if(builders.length < 3 && Game.spawns['Spawn1'].room.find(FIND_CONSTRUCTION_SITES).length > 0) {
         var newName = 'Builder' + Game.time;
         console.log('Spawning new builder: ' + newName);
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
             {memory: {role: 'builder', building: true}});
     }
-    // var repairers = _.filter(Game.creeps, (creep) => creep.memory.role == 'repairer' );
-    // if(repairers.length < 2) {
-    //     var newName = 'Repairer' + Game.time;
-    //     console.log('Spawning new repairer: ' + newName);
-    //     Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
-    //         {memory: {role: 'repairer', repairing: true}});
-    // }
+    var repairers = _.filter(Game.creeps, (creep) => creep.memory.role == 'repairer' );
+    if(repairers.length < 4) {
+        var newName = 'Repairer' + Game.time;
+        console.log('Spawning new repairer: ' + newName);
+        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
+            {memory: {role: 'repairer', repairing: true}});
+    }
 
     if(Game.spawns['Spawn1'].spawning) {
         var spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];
